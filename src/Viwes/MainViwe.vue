@@ -4,7 +4,7 @@
         <div class="top">
             <Menu_products :class="[{cards: card},{hiddn: !card}]" :products="products2" :AddList="AddList"/>
           <div class="main">
-            <Main_page :TurnOnAdnTurnOff="TurnOnAndTurnOff" :ProducList="ProducList"/>
+            <Main_page :TurnOnAdnTurnOff="TurnOnAndTurnOff" :ProducList="ProducList" :DaletProductList="DaletProductList"/>
           </div>
           <div class="right" id="right">
             <Right_for_page/>
@@ -111,14 +111,35 @@
         return this.products2 = this.products.filter(e=> e.tyupe == str);
       },
       AddList(product){
+        let checkProduct = true
          let produt = {
           name : product.name,
           price: product.price,
           tyupe: product.tyupe,
-          which: product.name,
          };
-         this.ProducList.push(product)
-      }
+         this.ProducList.forEach(element => {
+            if(element.name == product.name){
+              checkProduct = false;
+            }
+         });
+
+         if(checkProduct){
+          this.ProducList.push(product)
+         }
+      },
+
+
+      // DaletProductList(){
+      //   //  let NumberOfProduct =0;
+      //   //    this.ProducList.forEach(element => {
+      //   //      NumberOfProduct++;
+      //   //     if(element.name == name){
+      //   //       return;
+      //   //     }    
+      //   //  });
+      //   //  this.ProducList.remove(1);
+      //   console.log(2131);
+      // }
     }, 
   }
   </script>

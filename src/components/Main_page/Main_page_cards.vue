@@ -21,7 +21,7 @@
         </div>
 
         <div class="right">
-            <div class="bin" @click="Dalet(product.which)">
+            <div class="bin" @click="Dalet">
                 <img src="../../images/delete_icon.svg" alt="">
             </div>
         </div>
@@ -32,11 +32,14 @@ export default {
     props:{
         product:{
             typeof: Object
-        }
+        },
+        DaletProductList:{
+            typeof: Function,
+        },
     },
     methods: {
-        Dalet(id){
-            console.log(id)
+        Dalet(){
+            DaletProductList()
         }
     },
     

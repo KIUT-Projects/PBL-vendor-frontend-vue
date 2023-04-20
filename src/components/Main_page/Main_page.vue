@@ -52,7 +52,7 @@
              <div class="footer">
                   <div class="cards">
                     <div class="card" v-for="ProducList in ProducList">
-                        <Main_page_cards :product="ProducList"/>
+                        <Main_page_cards :product="ProducList" :DaletProductList="DaletProductList"/>
                     </div>
                   </div>
              </div>
@@ -86,6 +86,9 @@ export default {
         },
         ProducList:{
             typeof: Array,
+        },
+        DaletProductList:{
+            typeof: Function,
         }
     }
 }
