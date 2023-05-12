@@ -4,35 +4,43 @@
                 <div class="left_block">
                     <Main_box>
                         <div class="main_box_for_box" @click="holdOnCard('Tezkor')">
-                            <font-awesome-icon :icon="['fas', 'user-secret']" />
+                            <font-awesome-icon :icon="['fas', 'rocket']" />
                             <p>Tezkor</p>
                         </div>
                     </Main_box>
                     <Main_box>
                         <div class="main_box_for_box" @click="holdOnCard('kokatlar')">
-                            <font-awesome-icon :icon="['fas', 'user-secret']" />
+                            <font-awesome-icon :icon="['fas', 'carrot']" />
                             <p>ko`katlar</p>
                         </div>
                     </Main_box>
                     <Main_box>
                         <div class="main_box_for_box" @click="holdOnCard('Mevalar')">
-                            <font-awesome-icon :icon="['fas', 'user-secret']" />
+                            <font-awesome-icon icon="fa-solid fa-apple-whole" />
                             <p>Mevalar</p>
                         </div>
                     </Main_box>
                     <Main_box>
+                        <div class="main_box_for_box" @click="holdOnCard('ichimliklar')">
+                            <font-awesome-icon :icon="['fas', 'bottle-water']" />
+                            <p>ichimliklar</p>
+                        </div>
+                    </Main_box>
+                    
+                    <Main_box>
                         <div class="main_box_for_box" @click="holdOnCard('All')">
-                            <font-awesome-icon :icon="['fas', 'user-secret']" />
+                            <font-awesome-icon :icon="['fas', 'bars']" />
                             <p>Xammasi</p>
                         </div>
                     </Main_box>
+                    
                     
                 </div>
             
           </div>
 
 
-          <div class="main_right" id="main12">
+          <div class="main_right" id="main12" @click="this.TurnonAndofMenu">
              <div class="main_right_top">
                <div class="main_right_top_search">
                   <input type="text" placeholder="  Search">
@@ -44,7 +52,7 @@
 
 
              <div class="main">
-                <p class="title_1">Savatda</p>
+                <p class="title_1">Savatda <font-awesome-icon :icon="['fass', 'basket-shopping']" /></p>
                 <p class="title_2">#123123</p>
              </div>
 
@@ -52,7 +60,7 @@
              <div class="footer">
                   <div class="cards">
                     <div class="card" v-for="ProducList in ProducList">
-                        <Main_page_cards :product="ProducList" :DaletProductList="DaletProductList"/>
+                        <Main_page_cards :CalculateTotalPrice="CalculateTotalPrice" :product="ProducList" :DaletElementFromProducListForSell="DaletElementFromProducListForSell"/>
                     </div>
                   </div>
              </div>
@@ -70,14 +78,12 @@ export default {
     },
     data() {
         return {
-         
         }
     },
     methods:{
         holdOnCard(str){
             this.TurnOnAdnTurnOff(str);
-
-        }
+        },
     },
     props:{
         TurnOnAdnTurnOff:{
@@ -87,7 +93,14 @@ export default {
         ProducList:{
             typeof: Array,
         },
-        DaletProductList:{
+        DaletElementFromProducListForSell:{
+            typeof: Function,
+            Request: true,        
+        },
+        CalculateTotalPrice:{
+            typeof: Function,
+        },
+        TurnonAndofMenu:{
             typeof: Function,
         }
     }

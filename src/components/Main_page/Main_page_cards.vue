@@ -1,19 +1,19 @@
 <template >
     <div class="container2">
         <div class="left">
-           <input type="number" name="" id="" min="0">
+           <input type="number" name="" id="" min="0" :max="product.maxOfqulaty" :value="product.quality" @input="ListInput($event)">
         </div>
-
+    
         <div class="main">
          <div class="product_info">
              <p class="name">{{ product.name }}</p>
              <p class="barcode">0987854689034</p>
-             <div class="p">Sotuvda bor: 50ta</div>
+             <div class="p">Sotuvda bor: {{product.maxOfqulaty}}ta</div>
          </div>
          
 
          <div class="colculation">
-            <p class="calculation">123x3243x23444234</p>
+            <p class="calculation">{{ product.price }}x{{product.quality}}={{ product.price*product.quality }}</p>
             <img src="../../images/Group 61.svg" alt="">
          </div>
 
@@ -21,7 +21,7 @@
         </div>
 
         <div class="right">
-            <div class="bin" @click="Dalet">
+            <div class="bin" @click="click1(product.name)">
                 <img src="../../images/delete_icon.svg" alt="">
             </div>
         </div>
@@ -33,16 +33,23 @@ export default {
         product:{
             typeof: Object
         },
-        DaletProductList:{
+        DaletElementFromProducListForSell:{
             typeof: Function,
         },
-    },
-    methods: {
-        Dalet(){
-            DaletProductList()
+        CalculateTotalPrice:{
+            typeof: Function,
         }
     },
-    
+    methods: {
+        click1(name){
+            this.DaletElementFromProducListForSell(name);
+        },
+        ListInput(event){
+            this.product.quality = event.target.value;
+            this.CalculateTotalPrice();
+        }
+    },
+
 }
 </script>
 <style scoped >
@@ -93,6 +100,17 @@ export default {
     align-items: center;
 }
 
+input[type="number"]{
+    width: 100px;
+    font-size: 20px;
+    
+}
+
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button{
+    height: 45px;
+    margin-right: 1px;
+}
 
     
 </style>

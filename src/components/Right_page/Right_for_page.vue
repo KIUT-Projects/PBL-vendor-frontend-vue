@@ -1,67 +1,71 @@
 <template >
     <div class="container_for_right">
         <div class="cards">
-            <Main_box>
-                        <font-awesome-icon :icon="['fas', 'user-secret']" />
-                        <p>Tezkor</p>
+            <Main_box :FunctionForBox="ClearProductList">
+                        <font-awesome-icon icon="fa-solid fa-circle-xmark" style="color: #ff0000;" size="xl"/>
+                        <p style="font-size: 16px;">Bekorqilish</p>
             </Main_box>
 
-            <Main_box>
-                        <font-awesome-icon :icon="['fas', 'user-secret']" />
-                        <p>Tezkor</p>
+            <Main_box :FunctionForBox="SaveFirstProducts">
+                        <font-awesome-icon :icon="['fas', 'plus']" size="xl"/>
+                        <p style="font-size: 16px;">Qo`shish</p>
             </Main_box>
 
-            <Main_box>
-                        <font-awesome-icon :icon="['fas', 'user-secret']" />
-                        <p>Tezkor</p>
+            <Main_box :FunctionForBox="ReturnFirsProductList">
+                        <font-awesome-icon :icon="['fas', 'rotate-left']" size="xl"/>
+                        <p style="font-size: 16px;">Qaytarish</p>
             </Main_box>
         </div>
 
         <div class="customer_discount">
-                <div class="customer">
-            <div class="customer_top">
-                    <p>Mijoz</p>
-                    <p>Yaratish</p>
-            </div>
 
-            <div class="bottom">
-                <input type="text" class="custome">
-            </div>
-            </div>
 
-            <div class="discount">
-                <div class="text_discount">
-                    <p>chegirma</p>
+             <div class="customer">
+
+                <div class="text">
+                   <h4>Mijoz</h4>
+                   <p>Yaratish</p>
                 </div>
-                <div class="input_btns">
-                    <div class="input">
-                        <input type="text">
-                    </div>
-                    <div class="btns">
-                        <button>%</button>
-                        <button>UZS</button>
-                    </div>
+                <div class="input">
+                  <input type="text">
                 </div>
-            
-            </div>
+
+             </div>
+
+             <div class="discount">
+
+                <div class="text">
+                   <h4>chegirma</h4>
+                </div>
+                <div class="input">
+                  <input type="text" v-model="this.discount">
+                  <div class="protsent" id="protsentOrSum"  @click="this.changeDiscount">
+                    %
+                  </div>
+                </div>
+
+             </div>
+
+
         </div>
         
 
         <div class="pay">
            <table cellspacing="0">
             <tr>
-                <td>jami</td>
-                <td>228.400 so`m</td>
+                <td>  Jami</td>
+                <td>{{ this.whichOne == "%" ? (this.price-this.price*(this.discount/100)) : (this.price - this.discount) }}</td>
             </tr>
 
             <tr>
-                <td>chegirma</td>
-                <td>-400</td>
+                <td>  Chegirma</td>
+                <td>{{ this.discount==null ? 0 : this.discount }} {{ this.whichOne }}</td>
             </tr>
 
             <tr>
-                <td>to`lov</td>
-                <td>228.400 so`m</td>
+                
+                <td colspan="2"><div class="PriceBox"><p> To`lov</p> <button @click="Pay">To`lov</button></div></td>
+                
             </tr>
              
            </table>
@@ -71,9 +75,52 @@
 
 
 <script>
+import { text } from '@fortawesome/fontawesome-svg-core';
+import Main_box from '../UI_companents/Main_box.vue';
 
-export default {
-    
+export default {  
+    props:{
+        price:{
+            typeof: Number,
+        },
+        Pay:{
+            typeof: Function
+        },
+        ClearProductList:{
+            typeof: Function,
+        },
+        SaveFirstProducts:{
+            typeof: Function,
+        },
+        ReturnFirsProductList:{
+            typeof: Function,
+        },
+    },
+    components:{
+        Main_box,
+    },
+    methods: {
+        HoldonPay(){
+            this.Pay();
+        },
+        changeDiscount(){
+            let textDiscount = document.querySelector('#protsentOrSum');
+            if(textDiscount.innerHTML == '%'){
+                textDiscount.innerHTML = "sum"
+                this.whichOne = "sum"
+            } else{ 
+            textDiscount.innerHTML = "%"
+            this.whichOne = "%"
+            }
+        }
+    },
+    data() {
+        return {
+            discount: null,
+            whichOne: "%",
+        }
+    }
+  
 }
 </script>
 
@@ -102,153 +149,82 @@ export default {
         justify-content: space-evenly;
         padding-top: 25px;
     }
-    .container_for_right .customer{
-        width: 100%;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        
-    }
-
-    .container_for_right .customer .customer_top{
-        width: 100%;
-        color: red;
-        display: flex;
-        justify-content: space-around;
-    }
-
-    .container_for_right .customer .customer_top{
-        font-family: 'Inter';
-        font-style: normal;
-        font-weight: 700;
-        font-size: 20px;
-        line-height: 24px;
-        color: #4E93E4
-    }
+    
 
     .container_for_right .customer_discount{
         width: 90%;
-        height: 200px;
+        height: 220px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        
+    }
+
+    .container_for_right .customer_discount .customer,
+    .container_for_right .customer_discount .discount
+    {
+        height: 100px;
         display: flex;
         flex-direction: column;
         justify-content: space-between;
     }
 
-    
-
-    .container_for_right .customer .customer_top:nth-child(1){
-        
-        color: #656567;
-    }
-
-    .container_for_right .customer .customer_top{
+    .container_for_right .customer_discount .text{
+        display: flex;
+        justify-content: space-between;
         font-family: 'Inter';
         font-style: normal;
         font-weight: 700;
         font-size: 20px;
         line-height: 24px;
-        color: #4E93E4
+
+        color: #656567;
     }
 
-    
-    .container_for_right .customer .bottom{
-        width: 100%;
+    .container_for_right .customer_discount .text p{
+        color: #1D61FF;
+        font-size: 20px;
+    }
+
+    .container_for_right .customer_discount input{
+        width: 80%;
         height: 50px;
+        left: 1048.99px;
+        top: 326px;
+
+        background: rgba(248, 250, 255, 0.55);
+        background-blend-mode: darken;
+        /* text color */
+
+        border: 0.5px solid #656567;
+        box-shadow: 0px 1px 7px rgba(0, 0, 0, 0.25);
+        filter: blur(0.5px);
+        border-radius: 10px;
+    }
+
+    .container_for_right .customer_discount .customer input{
+        width: 100%;
+    }
+    .container_for_right .customer_discount .discount .protsent{
+        width: 18%;
+        height: 100%;
         display: flex;
         justify-content: center;
         align-items: center;
-    }
-
-    .container_for_right .customer .bottom input{
-        width: 100%;
-        height: 50px;
-        background: rgba(248, 250, 255, 0.55);
-        background-blend-mode: darken;
-        /* text color */
-
-        border: 0.5px solid #656567;
-        box-shadow: 0px 1px 7px rgba(0, 0, 0, 0.25);
-        filter: blur(0.5px);
+        background: #FFFFFF;
         border-radius: 10px;
-    }
-
-    .container_for_right .discount{
-        width: 100%;
-        height: 500px;
-        display: flex;
-        flex-direction: column;
-        align-items: start;
-        justify-content: space-between;
-        
-    }
-
-    .container_for_right .discount .text_discount{
-        width: 100%;
-        display: flex;
-        justify-content: start;
-        padding-left: 5px;
-        font-family: 'Inter';
-        font-style: normal;
-        font-weight: 700;
-        font-size: 20px;
-        line-height: 24px;
-
-        color: #656567;
-    }
-
-    .container_for_right .discount .input{
-        width: 100%;
-        display: flex;
-        justify-content: start;
-    }
-
-    .container_for_right .discount .input input{
-        width: 80%;
-        height: 50px;
-        border-radius: 25px;
-
-        background: rgba(248, 250, 255, 0.55);
-        background-blend-mode: darken;
-        /* text color */
-        border: 0.5px solid #656567;
+        font-size: 26px;
         box-shadow: 0px 1px 7px rgba(0, 0, 0, 0.25);
         filter: blur(0.5px);
     }
 
-    .container_for_right .discount .btns{
-        width: 80%;
-        height: auto;
-        display: flex;
-        justify-content: space-evenly;
-        align-items: center;
-        background: hsl(0, 0%, 92%);
-        padding: 7px;
-        margin-right: 1%;
-        border-radius: 10px;
-    }
-
-    .container_for_right .discount .btns button{
-        width: 58.2px;
-        height: 42px;
-        background: #fff;
-        border-radius: 10px;
-    }
-
-    .container_for_right .discount .text_discount p{
-        font-family: 'Inter';
-        font-style: normal;
-        font-weight: 700;
-        font-size: 20px;
-        line-height: 24px;
-        color: #656567;
-    }
-    
-
-    .container_for_right .discount .input_btns{
-        width: 100%;
+    .container_for_right .customer_discount .discount .input{
         display: flex;
         justify-content: space-between;
     }
+
+
+   
 
     .container_for_right .pay{
         width: 80%;
@@ -263,6 +239,7 @@ export default {
         background: #FFFFFF;
         box-shadow: 0px 4px 13px 1px rgba(0, 0, 0, 0.31);
         border-radius: 15px 15px 0px 0px;
+        padding: 0;
         padding-top: 25px;
         border: none;
     }
@@ -271,7 +248,21 @@ export default {
         padding:  7px;
     }
 
-    .container_for_right .pay tr:nth-last-child(1){
-        background: #057aff;
+    .container_for_right .pay tr .PriceBox{
+        width: 100%;
+        padding: 0 15px 0 0;
+        height: 40px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border-radius: 15px;
+        background: linear-gradient(90deg, #1D61FF 0%, #213B75 100%);
+    }
+    table, th, td {
+        border: none;
+        border-collapse: none;
+        padding: 0;
+        margin: 0;
+        border-spacing: 0;
     }
 </style>

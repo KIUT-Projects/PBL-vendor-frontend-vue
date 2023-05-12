@@ -30,14 +30,13 @@ export default {
         }
     },
 
-    props:{
+     props:{
         products:{
             typeof: Array,
         },
         AddList:{
             typeof: Function,
-        }
-       
+        },
     },
 
     methods: {

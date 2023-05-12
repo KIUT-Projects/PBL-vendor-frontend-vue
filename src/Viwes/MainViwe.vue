@@ -2,16 +2,17 @@
     <div class="container1">
       <div class="container">
         <div class="top">
-            <Menu_products :class="[{cards: card},{hiddn: !card}]" :products="products2" :AddList="AddList"/>
+            <Menu_products :class="[{cards: card},{hiddn: !card}]" :products="products2" :AddList="AddList" />
           <div class="main">
-            <Main_page :TurnOnAdnTurnOff="TurnOnAndTurnOff" :ProducList="ProducList" :DaletProductList="DaletProductList"/>
+            <Main_page :TurnonAndofMenu="TurnonAndofMenu" :CalculateTotalPrice="CalculateTotalPrice" :TurnOnAdnTurnOff="TurnOnAndTurnOff" :ProducList="this.ProducListForSell" :DaletElementFromProducListForSell="DaletElementFromProducListForSell"/>
           </div>
           <div class="right" id="right">
-            <Right_for_page/>
+            <Right_for_page :price="this.totalPrice" :Pay="Pay" :ClearProductList="ClearProductList" :SaveFirstProducts="SaveFirstProducts" :ReturnFirsProductList="ReturnFirsProductList"/>
   
           </div>
         </div>
-        <div class="footer">
+        <div class="footer" >
+        
   
         </div>
       </div>
@@ -77,70 +78,147 @@
         products:[
           {
             name : 'banana',
-            price: 1231,
-            tyupe: 'Mevalar'
+            maxOfqulaty: 12,
+            tyupe: 'Mevalar',
+            price: 200
           },
           {
             name : 'apple',
-            price: 12311,
-            tyupe: 'Tezkor'
+            maxOfqulaty: 12,
+            tyupe: 'Tezkor',
+            price: 200
           },
           {
             name : 'pear',
-            price: 12311,
-            tyupe: 'kokatlar'
+            maxOfqulaty: 12,
+            tyupe: 'kokatlar',
+            price: 200
+          },
+          {
+            name: 'Cola',
+            price: 10000,
+            tyupe: 'ichimliklar',
+            maxOfqulaty: 12,
           }
           
         ],
         products2:[
 
         ],
-        ProducList:[
+        ProducListForSell:[
           
         ],
         card: false,
+        saved: "first",
+        totalPrice: 0,
+        oldSaver: [],
       }
     },
 
     methods:{
       TurnOnAndTurnOff(str){
-        this.card = !this.card;
-        if(str == 'All')
-        return this.products2 = this.products
-        else
-        return this.products2 = this.products.filter(e=> e.tyupe == str);
+        if (this.saved == str) {
+          this.card = !this.card;
+        }else if(this.saved == "first"){
+          this.card = true; 
+          if(str == 'All')
+           this.products2 = this.products
+          else
+           this.products2 = this.products.filter(e=> e.tyupe == str);
+        } else{
+           if(this.card == true){
+            if(str == 'All'){ 
+            this.products2 = this.products
+            }
+            else{ 
+            this.products2 = this.products.filter(e=> e.tyupe == str);
+            }
+           }else{
+            if(str == 'All'){ 
+            this.products2 = this.products
+            this.card = true;
+            }
+            else{
+            this.products2 = this.products.filter(e=> e.tyupe == str);
+            this.card = true;
+            }   
+           }        
+        }
+        this.saved = str;
       },
+
+
       AddList(product){
         let checkProduct = true
-         let produt = {
+         let produt1 = {
           name : product.name,
           price: product.price,
           tyupe: product.tyupe,
+          quality: 1,
+          maxOfqulaty: product.maxOfqulaty,
          };
-         this.ProducList.forEach(element => {
+         this.ProducListForSell.forEach(element => {
             if(element.name == product.name){
               checkProduct = false;
             }
          });
 
          if(checkProduct){
-          this.ProducList.push(product)
+          this.ProducListForSell.push(produt1)
+         }else{
+          this.ProducListForSell.forEach(element => {
+            if(element.name == product.name)
+            element.quality+=1;
+          });
          }
+        
       },
-
-
-      // DaletProductList(){
-      //   //  let NumberOfProduct =0;
-      //   //    this.ProducList.forEach(element => {
-      //   //      NumberOfProduct++;
-      //   //     if(element.name == name){
-      //   //       return;
-      //   //     }    
-      //   //  });
-      //   //  this.ProducList.remove(1);
-      //   console.log(2131);
-      // }
+      CalculateTotalPrice(){
+        this.totalPrice=0;
+        this.ProducListForSell.forEach(element => {
+           this.totalPrice+=element.price*element.quality;
+         });
+      },
+       DaletElementFromProducListForSell(name){
+        let numberOfProduct=0;
+        this.ProducListForSell.forEach(element => {
+          if(element.name == name){
+            this.ProducListForSell.splice(numberOfProduct,1);
+            return;
+          }
+          numberOfProduct++;
+        });
+       },
+       Pay(){
+        this.ProducListForSell = [];
+       },
+       TurnonAndofMenu(){
+        if(this.card==true){
+          this.card=false
+        }else
+        return
+       },
+       ClearProductList(){
+        this.ProducListForSell = [];
+       },
+       SaveFirstProducts(){
+        if(this.ProducListForSell.length!=0){ 
+        this.oldSaver.push(this.ProducListForSell);
+        this.ProducListForSell=[];
+        }
+        else
+        console.log("Xech qanday malumot topilmadi");
+       },
+       ReturnFirsProductList(){
+        if(this.oldSaver.length!=0)
+        this.ProducListForSell = this.oldSaver.pop();
+        else
+        console.log("Stackda malumot yo`q");
+       }   
     }, 
+    updated() {
+      this.CalculateTotalPrice();
+    },
   }
   </script>
   

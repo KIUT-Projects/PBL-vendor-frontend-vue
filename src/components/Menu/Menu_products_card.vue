@@ -30,9 +30,7 @@ export default {
         },
     },
     methods:{
-        onMenu(){
-            console.log(21312);
-        }
+        
     }
     
 }

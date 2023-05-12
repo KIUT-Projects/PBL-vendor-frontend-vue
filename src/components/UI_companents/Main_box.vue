@@ -1,5 +1,5 @@
 <template>
-        <div class="container1" id="menu">
+        <div class="container1" id="menu" @click="this.FunctionForBox">
             <slot></slot>
         </div>
 </template>
@@ -7,6 +7,12 @@
 
 <script>
 export default {
+    props:{
+        FunctionForBox:{
+            typeof: Function,
+
+        }
+    }
 }
 </script>
 
@@ -29,6 +35,7 @@ export default {
         filter: blur(0.5px);
         border-radius: 19px;
     }
+    
 
        
     

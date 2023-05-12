@@ -9,7 +9,7 @@
                         <label for="">surname</label>
                         <input type="text">
                         <div class="login_inputs_btns">
-                            <button ><router-link :to="'/menu'">login</router-link></button>
+                            <button @click="GoToMainpage">login</button>
                             <button>Sign up</button>
                         </div>
                     </div>
@@ -22,8 +22,13 @@
     </div>
 </template>
 <script>
-import { RouterLink } from 'vue-router';
-
+export default{
+    methods:{
+        GoToMainpage(){
+            this.$router.push({name: 'menu'});
+        }
+    }
+}
 
 
 </script>
