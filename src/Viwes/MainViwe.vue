@@ -4,10 +4,10 @@
         <div class="top">
             <Menu_products :class="[{cards: card},{hiddn: !card}]" :products="products2" :AddList="AddList" />
           <div class="main">
-            <Main_page :TurnonAndofMenu="TurnonAndofMenu" :CalculateTotalPrice="CalculateTotalPrice" :TurnOnAdnTurnOff="TurnOnAndTurnOff" :ProducList="this.ProducListForSell" :DaletElementFromProducListForSell="DaletElementFromProducListForSell"/>
+            <Main_page @eachDiscount="overDiscount" :TurnonAndofMenu="TurnonAndofMenu" :CalculateTotalPrice="CalculateTotalPrice" :TurnOnAdnTurnOff="TurnOnAndTurnOff" :ProducList="this.ProducListForSell" :DaletElementFromProducListForSell="DaletElementFromProducListForSell"/>
           </div>
           <div class="right" id="right">
-            <Right_for_page :whichOneBtnForAddAndReturn="whichOneBtnForAddAndReturn" :price="this.totalPrice" :Pay="Pay" :ClearProductList="ClearProductList" :SaveFirstProducts="SaveFirstProducts" :ReturnFirsProductList="ReturnFirsProductList"/>
+            <Right_for_page :discount="overSumDiscount" :whichOneBtnForAddAndReturn="whichOneBtnForAddAndReturn" :price="this.totalPrice" :Pay="Pay" :ClearProductList="ClearProductList" :SaveFirstProducts="SaveFirstProducts" :ReturnFirsProductList="ReturnFirsProductList"/>
   
           </div>
         </div>
@@ -80,7 +80,7 @@
             name : 'banana',
             maxOfqulaty: 12,
             tyupe: 'Mevalar',
-            price: 200
+            price: 200,
           },
           {
             name : 'apple',
@@ -113,6 +113,7 @@
         totalPrice: 0,
         oldSaver: [],
         whichOneBtnForAddAndReturn: false,
+        overSumDiscount: 0,
       }
     },
 
@@ -146,6 +147,22 @@
            }        
         }
         this.saved = str;
+      },
+
+      overDiscount(number,name){
+        this.overSumDiscount = 0;
+      
+        this.ProducListForSell.forEach(element => {
+          if(element.name === name){
+            element.discount = number;
+          }
+        });
+
+        this.ProducListForSell.forEach(element => {
+          if(element.discount != undefined){
+            this.overSumDiscount += Number(element.discount);
+          }
+        });
       },
 
 

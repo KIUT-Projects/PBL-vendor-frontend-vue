@@ -32,7 +32,7 @@
 
              </div>
 
-             <div class="discount">
+             <!-- <div class="discount">
 
                 <div class="text">
                    <h4>chegirma</h4>
@@ -44,7 +44,7 @@
                   </div>
                 </div>
 
-             </div>
+             </div> -->
 
 
         </div>
@@ -54,12 +54,12 @@
            <table cellspacing="0">
             <tr>
                 <td>  Jami</td>
-                <td>{{ this.whichOne == "%" ? (this.price-this.price*(this.discount/100)) : (this.price - this.discount) }}</td>
+                <td>{{ this.price }}</td>
             </tr>
 
             <tr>
                 <td>  Chegirma</td>
-                <td>{{ this.discount==null ? 0 : this.discount }} {{ this.whichOne }}</td>
+                <td>{{ discount }} </td>
             </tr>
 
             <tr>
@@ -75,7 +75,6 @@
 
 
 <script>
-import { text } from '@fortawesome/fontawesome-svg-core';
 import Main_box from '../UI_companents/Main_box.vue';
 
 export default {  
@@ -95,8 +94,8 @@ export default {
         ReturnFirsProductList:{
             typeof: Function,
         },
-        whichOneBtnForAddAndReturn:{
-            typeof: Boolean,
+        discount:{
+            typeof: Number,
         }
     },
     components:{
@@ -106,23 +105,10 @@ export default {
         HoldonPay(){
             this.Pay();
         },
-        changeDiscount(){
-            let textDiscount = document.querySelector('#protsentOrSum');
-            if(textDiscount.innerHTML == '%'){
-                textDiscount.innerHTML = "sum"
-                this.whichOne = "sum"
-            } else{ 
-            textDiscount.innerHTML = "%"
-            this.whichOne = "%"
-            }
-        },
-        whichOneBtnFunc(){
-            console.log("123333333333333333333");
-        }
+       
     },
     data() {
         return {
-            discount: null,
             whichOne: "%",
         }
     }

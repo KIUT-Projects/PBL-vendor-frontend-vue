@@ -5,19 +5,26 @@
         </div>
     
         <div class="main">
-         <div class="product_info">
-             <p class="name">{{ product.name }}</p>
-             <p class="barcode">0987854689034</p>
-             <div class="p">Sotuvda bor: {{product.maxOfqulaty}}ta</div>
-         </div>
-         
+            <div class="product_info">
+                <p class="name">{{ product.name }}</p>
+                <p class="barcode">0987854689034</p>
+                <div class="p">Sotuvda bor: {{product.maxOfqulaty}}ta</div>
+            </div>
 
-         <div class="colculation">
-            <p class="calculation">{{ product.price }}x{{product.quality}}={{ product.price*product.quality }}</p>
-            <img src="../../images/Group 61.svg" alt="">
-         </div>
+            
+            
 
-
+            <div class="colculation">
+                <div class="calculText">
+                    <p class="calculation">{{ product.price }}x{{product.quality}}={{ product.price*product.quality }}</p>
+                    <p class="calculation">{{ this.product.discount == undefined ? this.nothing : product.price-product.discount }} {{ this.product.discount == undefined ? this.nothing : "x" }}  {{ this.product.discount == undefined ? this.nothing : product.quality}} {{ this.product.discount == undefined ? this.nothing : "=" }}  {{ this.product.discount == undefined ? this.nothing : (product.price-product.discount)*product.quality }} </p>
+                </div>
+                <div class="discounteachone" :id="product.name">
+                    <input type="text" v-model="product.discount" @input="sentDiscount">
+                </div>
+                <img src="../../images/Group 61.svg" alt="" @click="ShowDiscountInput" >
+            </div>
+            
         </div>
 
         <div class="right">
@@ -38,6 +45,9 @@ export default {
         },
         CalculateTotalPrice:{
             typeof: Function,
+        },
+        countofProduct:{
+            typeof: Function,
         }
     },
     methods: {
@@ -47,6 +57,30 @@ export default {
         ListInput(event){
             this.product.quality = event.target.value;
             this.CalculateTotalPrice();
+        },
+        ShowDiscountInput(){
+            let textForId = "#" + this.product.name;
+            let iconDiscount = document.querySelector(textForId);
+            
+            if(iconDiscount.style.display === "none"){
+                iconDiscount.style.display = "block"
+            }else{
+                iconDiscount.style.display = "none"
+            }
+           
+           
+        },
+        sentDiscount(){
+            this.$emit('eachDiscount', this.product.discount ,this.product.name);
+        }
+    },
+    updated() {
+        this.countofProduct()
+    },
+
+    data() {
+        return {
+            nothing: " ",
         }
     },
 
@@ -92,9 +126,15 @@ export default {
     display: flex;
     justify-content: space-between;
 }
+.discounteachone{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    display: none;
+}
 
 .colculation{
-    width: 200px;
+    width: 300px;
     display: flex;
     justify-content: space-between;
     align-items: center;

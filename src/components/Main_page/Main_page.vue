@@ -52,7 +52,7 @@
 
 
              <div class="main">
-                <p class="title_1">Savatda <font-awesome-icon :icon="['fass', 'basket-shopping']" /></p>
+                <p class="title_1">Savatda <font-awesome-icon :icon="['fass', 'basket-shopping']" /> {{ this.countOfProductNumber }}</p>
                 <p class="title_2">#123123</p>
              </div>
 
@@ -60,7 +60,7 @@
              <div class="footer">
                   <div class="cards">
                     <div class="card" v-for="ProducList in ProducList">
-                        <Main_page_cards :CalculateTotalPrice="CalculateTotalPrice" :product="ProducList" :DaletElementFromProducListForSell="DaletElementFromProducListForSell"/>
+                        <Main_page_cards :countofProduct="countofProduct" @eachDiscount="eachDiscount" :CalculateTotalPrice="CalculateTotalPrice" :product="ProducList" :DaletElementFromProducListForSell="DaletElementFromProducListForSell"/>
                     </div>
                   </div>
              </div>
@@ -78,12 +78,28 @@ export default {
     },
     data() {
         return {
+            countOfProductNumber: 0,
         }
     },
     methods:{
         holdOnCard(str){
             this.TurnOnAdnTurnOff(str);
         },
+        eachDiscount(number){
+           this.$emit('eachDiscount', number)
+     
+        },
+        countofProduct(){
+            this.countOfProductNumber = 0;
+            this.ProducList.forEach(element => {
+                this.countOfProductNumber += Number(element.quality)
+            });
+        },
+
+
+    },
+    updated() {
+        this.countofProduct();
     },
     props:{
         TurnOnAdnTurnOff:{
