@@ -7,7 +7,7 @@
             <Main_page :TurnonAndofMenu="TurnonAndofMenu" :CalculateTotalPrice="CalculateTotalPrice" :TurnOnAdnTurnOff="TurnOnAndTurnOff" :ProducList="this.ProducListForSell" :DaletElementFromProducListForSell="DaletElementFromProducListForSell"/>
           </div>
           <div class="right" id="right">
-            <Right_for_page :price="this.totalPrice" :Pay="Pay" :ClearProductList="ClearProductList" :SaveFirstProducts="SaveFirstProducts" :ReturnFirsProductList="ReturnFirsProductList"/>
+            <Right_for_page :whichOneBtnForAddAndReturn="whichOneBtnForAddAndReturn" :price="this.totalPrice" :Pay="Pay" :ClearProductList="ClearProductList" :SaveFirstProducts="SaveFirstProducts" :ReturnFirsProductList="ReturnFirsProductList"/>
   
           </div>
         </div>
@@ -112,6 +112,7 @@
         saved: "first",
         totalPrice: 0,
         oldSaver: [],
+        whichOneBtnForAddAndReturn: false,
       }
     },
 
@@ -202,12 +203,15 @@
         this.ProducListForSell = [];
        },
        SaveFirstProducts(){
-        if(this.ProducListForSell.length!=0){ 
+        if(this.oldSaver.length == 0){ 
         this.oldSaver.push(this.ProducListForSell);
         this.ProducListForSell=[];
         }
         else
-        console.log("Xech qanday malumot topilmadi");
+        {
+          this.ReturnFirsProductList();
+        }
+        this.whichOneBtnForAddAndReturn = !this.whichOneBtnForAddAndReturn
        },
        ReturnFirsProductList(){
         if(this.oldSaver.length!=0)

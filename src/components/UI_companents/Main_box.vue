@@ -1,5 +1,5 @@
 <template>
-        <div class="container1" id="menu" @click="this.FunctionForBox">
+        <div class="container1" id="menu" @click="this.UseMethod">
             <slot></slot>
         </div>
 </template>
@@ -11,8 +11,17 @@ export default {
         FunctionForBox:{
             typeof: Function,
 
+        },
+
+        arg:{
+            typeof: Boolean,
         }
-    }
+    },
+    methods: {
+        UseMethod(){
+            this.FunctionForBox();
+        }
+    },
 }
 </script>
 

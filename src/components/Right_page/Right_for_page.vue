@@ -7,11 +7,11 @@
             </Main_box>
 
             <Main_box :FunctionForBox="SaveFirstProducts">
-                        <font-awesome-icon :icon="['fas', 'plus']" size="xl"/>
+                        <font-awesome-icon :icon="this.whichOneBtnForAddAndReturn == false ? ['fas', 'plus'] : ['fas', 'arrow-left'] " size="xl"/>
                         <p style="font-size: 16px;">Qo`shish</p>
             </Main_box>
 
-            <Main_box :FunctionForBox="ReturnFirsProductList">
+            <Main_box>
                         <font-awesome-icon :icon="['fas', 'rotate-left']" size="xl"/>
                         <p style="font-size: 16px;">Qaytarish</p>
             </Main_box>
@@ -95,6 +95,9 @@ export default {
         ReturnFirsProductList:{
             typeof: Function,
         },
+        whichOneBtnForAddAndReturn:{
+            typeof: Boolean,
+        }
     },
     components:{
         Main_box,
@@ -112,6 +115,9 @@ export default {
             textDiscount.innerHTML = "%"
             this.whichOne = "%"
             }
+        },
+        whichOneBtnFunc(){
+            console.log("123333333333333333333");
         }
     },
     data() {
