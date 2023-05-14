@@ -54,12 +54,12 @@
            <table cellspacing="0">
             <tr>
                 <td>  Jami</td>
-                <td>{{ this.price }}</td>
+                <td>{{ this.price }} so`m</td>
             </tr>
 
             <tr>
                 <td>  Chegirma</td>
-                <td>{{ discount }} </td>
+                <td>{{ discount }} so`m</td>
             </tr>
 
             <tr>
