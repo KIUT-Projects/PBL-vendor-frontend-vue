@@ -18,13 +18,13 @@
                 <div class="calculText">
                     <div class="blockSum" v-if="this.whichOneSumOrProtsent">
                         <p class="calculation">{{ product.price }}x{{product.quality}}={{ product.price*product.quality }}</p>
-                        <p class="calculation">{{ this.product.discount == undefined ? this.nothing : product.price-product.discount }} {{ this.product.discount == undefined ? this.nothing : "x" }}  {{ this.product.discount == undefined ? this.nothing : product.quality}} {{ this.product.discount == undefined ? this.nothing : "=" }}  {{ this.product.discount == undefined ? this.nothing : (product.price-product.discount)*product.quality }} </p>
-                        <p class="calculation">chegirma {{ this.product.overDiscount }} so`m</p>
+                        <p class="calculation">{{ this.product.discount == undefined ? this.nothing : product.price-product.overDiscount }} {{ this.product.discount == undefined ? this.nothing : "x" }}  {{ this.product.discount == undefined ? this.nothing : product.quality}} {{ this.product.discount == undefined ? this.nothing : "=" }}  {{ this.product.discount == undefined ? this.nothing : (product.price-product.discount)*product.quality }} </p>
+                        <p class="calculation">{{ this.product.discount == undefined ? this.nothing : "chegirma" }} {{ this.product.overDiscount }} {{ this.product.discount == undefined ? this.nothing : "so`m" }}</p>
                     </div>
 
                     <div class="blockProtsent" v-else>
                         <p class="calculation">{{ product.price }}x{{product.quality}}={{ product.price*product.quality }}</p>
-                        <p class="calculation">{{ this.product.discount == undefined ? this.nothing : product.price-product.discount }} {{ this.product.discount == undefined ? this.nothing : "x" }}  {{ this.product.discount == undefined ? this.nothing : product.quality}} {{ this.product.discount == undefined ? this.nothing : "=" }}  {{ this.product.discount == undefined ? this.nothing : (product.price-product.discount)*product.quality }} </p>
+                        <p class="calculation">{{ this.product.discount == undefined ? this.nothing : product.price-product.overDiscount }} {{ this.product.discount == undefined ? this.nothing : "x" }}  {{ this.product.discount == undefined ? this.nothing : product.quality}} {{ this.product.discount == undefined ? this.nothing : "=" }}  {{ this.product.discount == undefined ? this.nothing : (product.price-product.overDiscount)*product.quality }} </p>
                         <p class="calculation">chegirma {{ this.product.overDiscount }} so`m</p>
                     </div>
                    
