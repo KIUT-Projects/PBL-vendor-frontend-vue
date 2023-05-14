@@ -6,9 +6,9 @@
                         <p style="font-size: 16px;">Bekorqilish</p>
             </Main_box>
 
-            <Main_box :FunctionForBox="SaveFirstProducts">
+            <Main_box :FunctionForBox="WhichOneBtnForAddAndReturn">
                         <font-awesome-icon :icon="this.whichOneBtnForAddAndReturn == false ? ['fas', 'plus'] : ['fas', 'arrow-left'] " size="xl"/>
-                        <p style="font-size: 16px;">Qo`shish</p>
+                        <p style="font-size: 16px;" id="textChange">Qo`shish</p>
             </Main_box>
 
             <Main_box>
@@ -105,11 +105,18 @@ export default {
         HoldonPay(){
             this.Pay();
         },
+        WhichOneBtnForAddAndReturn(){
+            this.whichOneBtnForAddAndReturn = !this.whichOneBtnForAddAndReturn;
+            this.SaveFirstProducts();
+            let text = document.querySelector('#textChange');
+            this.whichOneBtnForAddAndReturn == false ? text.innerText = "Qo`shish" : text.innerText = "Qaytish";
+        }
        
     },
     data() {
         return {
             whichOne: "%",
+            whichOneBtnForAddAndReturn: false,
         }
     }
   

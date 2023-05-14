@@ -4,7 +4,7 @@
         <div class="top">
             <Menu_products :class="[{cards: card},{hiddn: !card}]" :products="products2" :AddList="AddList" />
           <div class="main">
-            <Main_page @eachDiscount="overDiscount" :TurnonAndofMenu="TurnonAndofMenu" :CalculateTotalPrice="CalculateTotalPrice" :TurnOnAdnTurnOff="TurnOnAndTurnOff" :ProducList="this.ProducListForSell" :DaletElementFromProducListForSell="DaletElementFromProducListForSell"/>
+            <Main_page :CalculateTotalDiscount="CalculateTotalPrice" @eachDiscount="overDiscount" :TurnonAndofMenu="TurnonAndofMenu" :CalculateTotalPrice="CalculateTotalPrice" :TurnOnAdnTurnOff="TurnOnAndTurnOff" :ProducList="this.ProducListForSell" :DaletElementFromProducListForSell="DaletElementFromProducListForSell"/>
           </div>
           <div class="right" id="right">
             <Right_for_page :discount="overSumDiscount" :whichOneBtnForAddAndReturn="whichOneBtnForAddAndReturn" :price="this.totalPrice" :Pay="Pay" :ClearProductList="ClearProductList" :SaveFirstProducts="SaveFirstProducts" :ReturnFirsProductList="ReturnFirsProductList"/>
@@ -149,18 +149,11 @@
         this.saved = str;
       },
 
-      overDiscount(number,name){
-        this.overSumDiscount = 0;
-      
+      overDiscount(number,name,discount){
         this.ProducListForSell.forEach(element => {
           if(element.name === name){
             element.discount = number;
-          }
-        });
-
-        this.ProducListForSell.forEach(element => {
-          if(element.discount != undefined){
-            this.overSumDiscount += Number(element.discount);
+            discount ? element.whichIsDiscount = "sum" : element.whichIsDiscount = "%"
           }
         });
       },
@@ -191,12 +184,34 @@
          }
         
       },
+
+
       CalculateTotalPrice(){
         this.totalPrice=0;
         this.ProducListForSell.forEach(element => {
            this.totalPrice+=element.price*element.quality;
          });
       },
+
+
+
+      CalculateTotalDiscount(){
+        this.overSumDiscount = 0;
+          this.ProducListForSell.forEach(element => {
+            if(element.discount != undefined){
+              element.overDiscount = (Number(element.discount)* Number(element.quality));
+            }
+          });
+
+          this.ProducListForSell.forEach(element => {
+            if(element.overDiscount != undefined){
+              this.overSumDiscount +=  Number(element.overDiscount);
+            }
+          });
+          console.log(this.ProducListForSell);
+      },
+
+
        DaletElementFromProducListForSell(name){
         let numberOfProduct=0;
         this.ProducListForSell.forEach(element => {
@@ -207,18 +222,26 @@
           numberOfProduct++;
         });
        },
+
+
        Pay(){
         this.ProducListForSell = [];
        },
+
+
        TurnonAndofMenu(){
         if(this.card==true){
           this.card=false
         }else
         return
        },
+
+
        ClearProductList(){
         this.ProducListForSell = [];
        },
+
+
        SaveFirstProducts(){
         if(this.oldSaver.length == 0){ 
         this.oldSaver.push(this.ProducListForSell);
@@ -237,8 +260,11 @@
         console.log("Stackda malumot yo`q");
        }   
     }, 
+
+    
     updated() {
       this.CalculateTotalPrice();
+      this.CalculateTotalDiscount();
     },
   }
   </script>

@@ -16,20 +16,33 @@
 
             <div class="colculation">
                 <div class="calculText">
-                    <p class="calculation">{{ product.price }}x{{product.quality}}={{ product.price*product.quality }}</p>
-                    <p class="calculation">{{ this.product.discount == undefined ? this.nothing : product.price-product.discount }} {{ this.product.discount == undefined ? this.nothing : "x" }}  {{ this.product.discount == undefined ? this.nothing : product.quality}} {{ this.product.discount == undefined ? this.nothing : "=" }}  {{ this.product.discount == undefined ? this.nothing : (product.price-product.discount)*product.quality }} </p>
+                    <div class="blockSum" v-if="this.whichOneSumOrProtsent">
+                        <p class="calculation">{{ product.price }}x{{product.quality}}={{ product.price*product.quality }}</p>
+                        <p class="calculation">{{ this.product.discount == undefined ? this.nothing : product.price-product.discount }} {{ this.product.discount == undefined ? this.nothing : "x" }}  {{ this.product.discount == undefined ? this.nothing : product.quality}} {{ this.product.discount == undefined ? this.nothing : "=" }}  {{ this.product.discount == undefined ? this.nothing : (product.price-product.discount)*product.quality }} </p>
+                        <p class="calculation">{{ this.product.overDiscount }}</p>
+                    </div>
+
+                    <div class="blockProtsent" v-else>
+                        
+                    </div>
+                   
                 </div>
                 <div class="discounteachone" :id="product.name">
                     <input type="text" v-model="product.discount" @input="sentDiscount">
                 </div>
-                <img src="../../images/Group 61.svg" alt="" @click="ShowDiscountInput" >
+                    <img src="../../images/Group 61.svg" alt="" @click="ShowDiscountInput" >
             </div>
             
         </div>
 
         <div class="right">
-            <div class="bin" @click="click1(product.name)">
+            <div class="bin" @click="click1(product.name)" id="bin">
                 <img src="../../images/delete_icon.svg" alt="">
+                
+            </div>
+
+            <div class="whichone" id="whichone">
+                <button id="whichone1" @click="changeDiscountCalculate">Sum</button>
             </div>
         </div>
     </div>
@@ -61,17 +74,28 @@ export default {
         ShowDiscountInput(){
             let textForId = "#" + this.product.name;
             let iconDiscount = document.querySelector(textForId);
-            
+            let bin = document.querySelector('#bin')
+            let whichone = document.querySelector('#whichone')
             if(iconDiscount.style.display === "none"){
                 iconDiscount.style.display = "block"
+                bin.style.display = "none"
+                whichone.style.display = "block"
+                
             }else{
                 iconDiscount.style.display = "none"
+                bin.style.display = "block"
+                whichone.style.display = "none"
             }
            
            
         },
         sentDiscount(){
-            this.$emit('eachDiscount', this.product.discount ,this.product.name);
+            this.$emit('eachDiscount', this.product.discount ,this.product.name,this.whichOneSumOrProtsent);
+        },
+        changeDiscountCalculate(){
+            let whichone = document.querySelector('#whichone1')
+            this.whichOneSumOrProtsent = !this.whichOneSumOrProtsent;
+            this.whichOneSumOrProtsent ? whichone.innerText= 'Sum' : whichone.innerText = '%';
         }
     },
     updated() {
@@ -81,6 +105,7 @@ export default {
     data() {
         return {
             nothing: " ",
+            whichOneSumOrProtsent: true,
         }
     },
 
@@ -108,6 +133,7 @@ export default {
     padding: 0 8px;
     margin-top: 10px;
 }
+
 
 .left{
     width: 117px;
@@ -150,6 +176,24 @@ input[type="number"]::-webkit-inner-spin-button,
 input[type="number"]::-webkit-outer-spin-button{
     height: 45px;
     margin-right: 1px;
+}
+
+.right{
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 50px;
+}
+
+.right .bin{
+  position: absolute;
+  z-index: 1;
+}
+.right .whichone{
+    position: absolute;
+    z-index: 0;
+    display: none;
 }
 
     

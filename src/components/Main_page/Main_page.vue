@@ -85,8 +85,8 @@ export default {
         holdOnCard(str){
             this.TurnOnAdnTurnOff(str);
         },
-        eachDiscount(number){
-           this.$emit('eachDiscount', number)
+        eachDiscount(number,name,whichone){
+           this.$emit('eachDiscount', number,name,whichone)
      
         },
         countofProduct(){
@@ -100,6 +100,8 @@ export default {
     },
     updated() {
         this.countofProduct();
+        this.CalculateTotalPrice();
+        console.log(this.ProducList);
     },
     props:{
         TurnOnAdnTurnOff:{
@@ -118,6 +120,9 @@ export default {
         },
         TurnonAndofMenu:{
             typeof: Function,
+        },
+        CalculateTotalPrice:{
+            typeof: Function
         }
     }
 }
