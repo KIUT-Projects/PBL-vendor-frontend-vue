@@ -23,7 +23,9 @@
                     </div>
 
                     <div class="blockProtsent" v-else>
-                        
+                        <p class="calculation">{{ product.price }}x{{product.quality}}={{ product.price*product.quality }}</p>
+                        <p class="calculation">{{ this.product.discount == undefined ? this.nothing : product.price-product.discount }} {{ this.product.discount == undefined ? this.nothing : "x" }}  {{ this.product.discount == undefined ? this.nothing : product.quality}} {{ this.product.discount == undefined ? this.nothing : "=" }}  {{ this.product.discount == undefined ? this.nothing : (product.price-product.discount)*product.quality }} </p>
+                        <p class="calculation">{{ this.product.overDiscount }}</p>
                     </div>
                    
                 </div>
@@ -36,13 +38,13 @@
         </div>
 
         <div class="right">
-            <div class="bin" @click="click1(product.name)" id="bin">
+            <div class="bin" @click="click1(product.name)" :id="product.name+'bin'">
                 <img src="../../images/delete_icon.svg" alt="">
                 
             </div>
 
-            <div class="whichone" id="whichone">
-                <button id="whichone1" @click="changeDiscountCalculate">Sum</button>
+            <div class="whichone" :id="product.name+'whichone'">
+                <button :id="product.name+'whichone1'" @click="changeDiscountCalculate">Sum</button>
             </div>
         </div>
     </div>
@@ -73,9 +75,11 @@ export default {
         },
         ShowDiscountInput(){
             let textForId = "#" + this.product.name;
+            let textBin = "#" + this.product.name +"bin";
+            let textWhichone = "#" + this.product.name +"whichone";
             let iconDiscount = document.querySelector(textForId);
-            let bin = document.querySelector('#bin')
-            let whichone = document.querySelector('#whichone')
+            let bin = document.querySelector(textBin)
+            let whichone = document.querySelector(textWhichone)
             if(iconDiscount.style.display === "none"){
                 iconDiscount.style.display = "block"
                 bin.style.display = "none"
@@ -93,9 +97,11 @@ export default {
             this.$emit('eachDiscount', this.product.discount ,this.product.name,this.whichOneSumOrProtsent);
         },
         changeDiscountCalculate(){
-            let whichone = document.querySelector('#whichone1')
+            let textWhichone = '#'+this.product.name+'whichone1';
+            let whichone = document.querySelector(textWhichone)
             this.whichOneSumOrProtsent = !this.whichOneSumOrProtsent;
             this.whichOneSumOrProtsent ? whichone.innerText= 'Sum' : whichone.innerText = '%';
+            this.$emit('eachDiscount', this.product.discount ,this.product.name,this.whichOneSumOrProtsent);
         }
     },
     updated() {

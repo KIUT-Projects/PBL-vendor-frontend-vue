@@ -199,7 +199,10 @@
         this.overSumDiscount = 0;
           this.ProducListForSell.forEach(element => {
             if(element.discount != undefined){
+              if(element.whichIsDiscount == "sum")
               element.overDiscount = (Number(element.discount)* Number(element.quality));
+              else
+              element.overDiscount = (Number(element.quality) * (Number(element.price)*Number(element.discount)/100))
             }
           });
 
@@ -258,10 +261,10 @@
         this.ProducListForSell = this.oldSaver.pop();
         else
         console.log("Stackda malumot yo`q");
-       }   
+       },
     }, 
 
-    
+
     updated() {
       this.CalculateTotalPrice();
       this.CalculateTotalDiscount();
